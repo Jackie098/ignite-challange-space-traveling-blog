@@ -5,6 +5,7 @@ import config from '../slicemachine.config.json';
 /**
  * The project's Prismic repository name.
  */
+// eslint-disable-next-line prefer-destructuring
 export const repositoryName = config.repositoryName;
 
 /**
@@ -30,6 +31,7 @@ const routes: prismic.ClientConfig['routes'] = [
  *
  * @param config - Configuration for the Prismic client.
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/explicit-function-return-type, no-shadow
 export const createClient = (config: prismicNext.CreateClientConfig = {}) => {
   const client = prismic.createClient(repositoryName, {
     routes,
