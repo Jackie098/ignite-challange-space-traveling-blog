@@ -24,9 +24,9 @@ interface HomeProps {
   postsPagination: PostPagination;
 }
 
-// export default function Home() {
-//   // TODO
-// }
+export default function Home({ postsPagination }: HomeProps) {
+  return <div>Oi</div>;
+}
 
 // export const getStaticProps = async () => {
 //   // const prismic = getPrismicClient({});
