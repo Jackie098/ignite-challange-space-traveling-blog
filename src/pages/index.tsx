@@ -30,7 +30,8 @@ interface HomeProps {
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/explicit-function-return-type
 export default function Home({ postsPagination }: HomeProps) {
-  console.log('postsPagination', postsPagination);
+  // console.log('postsPagination', postsPagination);
+
   return (
     <div className={styles.container}>
       {[1, 2, 3, 4, 5].map(item => (
@@ -62,10 +63,16 @@ export const getStaticProps: GetStaticProps = async () => {
   // const prismic = getPrismicClient();
   const prismic = createClient();
   const postsResponse = await prismic.getAllByType('posts', {
-    pageSize: 4,
+    // fetch: ['post.title', 'post.subtitle'],
+    pageSize: 2,
   });
 
-  console.log('postsResponse', postsResponse);
+  const posts = postsResponse.map(post => {
+    return {
+      slug: post.uid,
+      title: post.data,
+    };
+  });
 
   return {
     props: {

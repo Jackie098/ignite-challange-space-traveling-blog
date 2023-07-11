@@ -1,14 +1,10 @@
-import * as prismic from '@prismicio/client';
-import { HttpRequestLike } from '@prismicio/client';
 import { enableAutoPreviews } from '@prismicio/next';
+import { createClient } from '../prismicio';
 
-export interface PrismicConfig {
-  req?: HttpRequestLike;
-}
-
-export function getPrismicClient(config: PrismicConfig = {}): prismic.Client {
-  const client = prismic.createClient(process.env.PRISMIC_ENDPOINT, {
-    accessToken: process.env.PRISMIC_TOKEN_API,
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/explicit-function-return-type
+export function getPrismicClient() {
+  const client = createClient({
+    // accessToken: process.env.PRISMIC_TOKEN_API,
   });
 
   enableAutoPreviews({
