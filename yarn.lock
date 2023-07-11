@@ -1098,14 +1098,6 @@
     tslib "^2.3.1"
     uuid "^8.3.2"
 
-"@prismicio/client@^6.4.3":
-  version "6.8.0"
-  resolved "https://registry.yarnpkg.com/@prismicio/client/-/client-6.8.0.tgz#49c476d8cbe70578db9e33dc72d4e0086872660f"
-  integrity sha512-6E2dGp1zsZRKe9g/YH/vUeKf2OZJqZJGJjTXuI+EjQxNROf0L1aTDxcpcxWRwLbHxFyMxdNAMY4rUyuNzRKY9Q==
-  dependencies:
-    "@prismicio/helpers" "^2.3.8"
-    "@prismicio/types" "^0.2.7"
-
 "@prismicio/client@^7.1.0":
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/@prismicio/client/-/client-7.1.0.tgz#456c641648b7117c44e4eaef3eb68d9bef02bde3"
@@ -1214,7 +1206,7 @@
   resolved "https://registry.yarnpkg.com/@prismicio/helpers/-/helpers-1.2.0.tgz#7e6c8a2ca469af3c3ff1997b4d8d4eb88ee86cdf"
   integrity sha512-YsOfGgauGeTC5Co8zXvz278Lc/V3fyNaAPTs/y4gGrLmLhYa/eT7+USYvDB9RhKEPhYFnUqBiGWa+3l7BksYOQ==
 
-"@prismicio/helpers@^2.3.0", "@prismicio/helpers@^2.3.8":
+"@prismicio/helpers@^2.3.0":
   version "2.3.9"
   resolved "https://registry.yarnpkg.com/@prismicio/helpers/-/helpers-2.3.9.tgz#dd2513a429644ed2d7a6fbc8955de6b2e9659fc0"
   integrity sha512-p7Y1sG83A2YPZvptfAzuZA8xH1bdM2wGRjqSKW9Qa0rAnBq2OfVKRvwl9OMCZML4eLUMxSEUAEWRVSoKpQnJvA==
@@ -4845,7 +4837,7 @@ data-urls@^2.0.0:
     whatwg-mimetype "^2.3.0"
     whatwg-url "^8.0.0"
 
-date-fns@^2.19.0, date-fns@^2.24.0:
+date-fns@^2.24.0, date-fns@^2.30.0:
   version "2.30.0"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.30.0.tgz#f367e644839ff57894ec6ac480de40cae4b0f4d0"
   integrity sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==

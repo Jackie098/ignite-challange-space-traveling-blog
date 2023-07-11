@@ -8,6 +8,7 @@ import { getPrismicClient } from '../services/prismic';
 import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
 import { createClient } from '../prismicio';
+import { addMaskPtBr } from '../utils/date';
 
 interface Post {
   uid?: string;
@@ -25,23 +26,23 @@ interface PostPagination {
 }
 
 interface HomeProps {
-  postsPagination: PostPagination;
+  postsPagination: Post[];
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/explicit-function-return-type
 export default function Home({ postsPagination }: HomeProps) {
-  // console.log('postsPagination', postsPagination);
+  console.log('postsPagination', postsPagination);
 
   return (
     <div className={styles.container}>
-      {[1, 2, 3, 4, 5].map(item => (
-        <div key={item} className={styles.containerPost}>
-          <h2>Como utilizar Hooks</h2>
-          <p>Pensando em sincronização em vez de ciclos de vida.</p>
+      {postsPagination.map(item => (
+        <div key={item.uid} className={styles.containerPost}>
+          <h2>{item.data.title}</h2>
+          <p>{item.data.subtitle}</p>
           <div className={styles.containerInfo}>
-            <span>15 Mar 2021</span>
+            <span>{item.first_publication_date}</span>
 
-            <span>Joseph Oliveira</span>
+            <span>{item.data.author}</span>
           </div>
         </div>
       ))}
@@ -62,6 +63,7 @@ export default function Home({ postsPagination }: HomeProps) {
 export const getStaticProps: GetStaticProps = async () => {
   // const prismic = getPrismicClient();
   const prismic = createClient();
+  // TODO: Pagination
   const postsResponse = await prismic.getAllByType('posts', {
     // fetch: ['post.title', 'post.subtitle'],
     pageSize: 2,
@@ -69,14 +71,28 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const posts = postsResponse.map(post => {
     return {
-      slug: post.uid,
-      title: post.data,
+      uid: post.uid,
+      first_publication_date: addMaskPtBr(
+        new Date(post.first_publication_date)
+      ),
+      data: {
+        author: post.data.author,
+        title: post.data.title,
+        subtitle: post.data.subtitle,
+      },
+      // excerpt:
+      //   post.data.content
+      //     .find(content =>
+      //       content.body.find(contentBody => contentBody.type === 'paragraph')
+      //     )
+      //     .body.find(contentBody => contentBody.type === 'paragraph')?.text ??
+      //   '',
     };
   });
 
   return {
     props: {
-      postsPagination: postsResponse,
+      postsPagination: posts,
     },
   };
 };
