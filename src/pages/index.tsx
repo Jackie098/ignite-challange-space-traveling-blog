@@ -3,12 +3,11 @@
 /* eslint-disable react/button-has-type */
 import { GetStaticProps } from 'next';
 
-import { getPrismicClient } from '../services/prismic';
+import { useState } from 'react';
 
-import commonStyles from '../styles/common.module.scss';
-import styles from './home.module.scss';
 import { createClient } from '../prismicio';
 import { addMaskPtBr } from '../utils/date';
+import styles from './home.module.scss';
 
 interface Post {
   uid?: string;
@@ -21,21 +20,65 @@ interface Post {
 }
 
 interface PostPagination {
+  page: number;
+  results_per_page: number;
+  results_size: number;
+  total_results_size: number;
+  total_pages: number;
   next_page: string;
+  prev_page: string | null;
   results: Post[];
 }
 
 interface HomeProps {
-  postsPagination: Post[];
+  postsPagination: PostPagination;
 }
+
+// type Pagination = {
+//   previousPage: string | null;
+//   nextPage: string | null;
+// };
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/explicit-function-return-type
 export default function Home({ postsPagination }: HomeProps) {
-  console.log('postsPagination', postsPagination);
+  const [posts, setPosts] = useState(postsPagination);
+
+  if (posts === undefined || posts.results?.length === 0) {
+    return 'Loading...';
+  }
+
+  // console.log(postsPagination);
+  async function handlePagination(nextPage: string) {
+    const response = await fetch(nextPage);
+    const data: PostPagination = await response.json();
+
+    // console.log('pagination', data);
+    const postsNextPage = data.results.map(post => {
+      return {
+        uid: post.uid,
+        first_publication_date: addMaskPtBr(
+          new Date(post.first_publication_date)
+        ),
+        data: {
+          author: post.data.author,
+          title: post.data.title,
+          subtitle: post.data.subtitle,
+        },
+      };
+    });
+
+    setPosts({
+      ...posts,
+      page: data.page,
+      prev_page: data.prev_page,
+      next_page: data.next_page,
+      results: [...posts.results, ...postsNextPage],
+    });
+  }
 
   return (
     <div className={styles.container}>
-      {postsPagination.map(item => (
+      {posts.results.map(item => (
         <div key={item.uid} className={styles.containerPost}>
           <h2>{item.data.title}</h2>
           <p>{item.data.subtitle}</p>
@@ -47,11 +90,10 @@ export default function Home({ postsPagination }: HomeProps) {
         </div>
       ))}
 
-      {/* // eslint-disable-next-line react/button-has-type */}
       <button
         className={styles.btnLoadMore}
         onClick={() => {
-          console.log('oi');
+          handlePagination(posts.next_page);
         }}
       >
         Carregar mais posts
@@ -63,13 +105,19 @@ export default function Home({ postsPagination }: HomeProps) {
 export const getStaticProps: GetStaticProps = async () => {
   // const prismic = getPrismicClient();
   const prismic = createClient();
-  // TODO: Pagination
-  const postsResponse = await prismic.getAllByType('posts', {
+  const postsResponse = await prismic.getByType('posts', {
     // fetch: ['post.title', 'post.subtitle'],
+    orderings: {
+      field: 'document.first_publication_date',
+      direction: 'desc',
+    },
+    page: 1,
     pageSize: 2,
   });
 
-  const posts = postsResponse.map(post => {
+  console.log(postsResponse);
+
+  const posts = postsResponse.results.map(post => {
     return {
       uid: post.uid,
       first_publication_date: addMaskPtBr(
@@ -92,7 +140,10 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: {
-      postsPagination: posts,
+      postsPagination: {
+        ...postsResponse,
+        results: posts,
+      },
     },
   };
 };
