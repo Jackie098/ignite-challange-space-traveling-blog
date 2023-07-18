@@ -90,14 +90,16 @@ export default function Home({ postsPagination }: HomeProps) {
         </div>
       ))}
 
-      <button
-        className={styles.btnLoadMore}
-        onClick={() => {
-          handlePagination(posts.next_page);
-        }}
-      >
-        Carregar mais posts
-      </button>
+      {posts.results.length < postsPagination.total_results_size && (
+        <button
+          className={styles.btnLoadMore}
+          onClick={() => {
+            handlePagination(posts.next_page);
+          }}
+        >
+          Carregar mais posts
+        </button>
+      )}
     </div>
   );
 }
