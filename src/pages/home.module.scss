@@ -17,16 +17,20 @@
   p {
     font-size: 1.125rem;
     margin-bottom: 1.5rem;
+    color: var(--body);
+    text-align: left;
   }
 
   .containerInfo {
     display: flex;
     justify-content: space-between;
     max-width: 263px;
+    color: var(--info);
   }
 }
 
 .btnLoadMore {
   align-self: left;
   margin-bottom: 24px;
+  color: var(--hightlight);
 }

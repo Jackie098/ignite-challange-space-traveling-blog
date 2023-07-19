@@ -5,6 +5,8 @@ import { GetStaticProps } from 'next';
 
 import { useState } from 'react';
 
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { createClient } from '../prismicio';
 import { addMaskPtBr } from '../utils/date';
 import styles from './home.module.scss';
@@ -41,7 +43,11 @@ interface HomeProps {
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/explicit-function-return-type
 export default function Home({ postsPagination }: HomeProps) {
+  const router = useRouter();
+
   const [posts, setPosts] = useState(postsPagination);
+
+  console.log(posts);
 
   if (posts === undefined || posts.results?.length === 0) {
     return 'Loading...';
@@ -79,18 +85,21 @@ export default function Home({ postsPagination }: HomeProps) {
   return (
     <div className={styles.container}>
       {posts.results.map(item => (
-        <div key={item.uid} className={styles.containerPost}>
-          <h2>{item.data.title}</h2>
-          <p>{item.data.subtitle}</p>
-          <div className={styles.containerInfo}>
-            <span>{item.first_publication_date}</span>
+        <Link href={`/post/${item.uid}`}>
+          <button key={item.uid} className={styles.containerPost}>
+            <h2>{item.data.title}</h2>
+            <p>{item.data.subtitle}</p>
+            <div className={styles.containerInfo}>
+              <span>{item.first_publication_date}</span>
 
-            <span>{item.data.author}</span>
-          </div>
-        </div>
+              <span>{item.data.author}</span>
+            </div>
+          </button>
+        </Link>
       ))}
 
-      {posts.results.length < postsPagination.total_results_size && (
+      {(posts.results.length < postsPagination.total_results_size ||
+        postsPagination.page === postsPagination.total_pages) && (
         <button
           className={styles.btnLoadMore}
           onClick={() => {
