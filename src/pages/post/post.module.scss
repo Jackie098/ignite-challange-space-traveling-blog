@@ -1,1 +1,51 @@
-// TODO
+.bannerContainer {
+  width: 100vw;
+  height: 100vh;
+  max-height: 400px;
+
+  margin-bottom: 80px;
+}
+
+.banner {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+.contentContainer {
+  max-width: 700px;
+}
+
+.header {
+  // align-self: center;
+  justify-self: center;
+  margin-bottom: 54px;
+
+  h1 {
+    font-size: 48px;
+    font-weight: 'bold';
+    margin-bottom: 24px;
+  }
+
+  .headerInformations {
+    display: flex;
+    gap: 24px;
+    color: var(--info);
+  }
+}
+
+.content {
+  // justify-self: center;
+
+  .blockTitle {
+    font-weight: bold;
+    margin: 40px 0;
+    font-size: 36px;
+  }
+
+  .blockContent {
+    margin-bottom: 16px;
+    font-size: 18px;
+  }
+
+}
