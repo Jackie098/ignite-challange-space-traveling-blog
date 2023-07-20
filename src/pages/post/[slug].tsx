@@ -2,6 +2,8 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 
 import { RichText } from 'prismic-dom';
 import Head from 'next/head';
+import { format } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
 import { getPrismicClient } from '../../services/prismic';
 
 import commonStyles from '../../styles/common.module.scss';
@@ -103,7 +105,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     props: {
       post: {
         uid: response.uid,
-        first_publication_date: response.first_publication_date,
+        first_publication_date: format(
+          new Date(response.first_publication_date),
+          'dd MMM Y',
+          {
+            locale: ptBR,
+          }
+        ),
         data: {
           author: response.data.author,
           banner: {
