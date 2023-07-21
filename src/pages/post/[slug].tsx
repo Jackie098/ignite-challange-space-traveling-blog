@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable react/no-danger */
 import { GetStaticPaths, GetStaticProps } from 'next';
 
@@ -19,7 +20,7 @@ interface Post {
     };
     author: string;
     content: {
-      heading: string;
+      header: string;
       body: {
         text: string;
       }[];
@@ -34,8 +35,31 @@ interface PostProps {
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/explicit-function-return-type
 export default function Post({ post }: PostProps) {
   console.log('post', post);
-  // console.log(post.data.content[0].body);
-  // const amountWords = post.data.content.reduce();
+
+  const contentToHtml = post.data.content.map(item => {
+    return {
+      header: item.header,
+      body: RichText.asHtml(item.body),
+    };
+  });
+
+  const amountWords = post.data.content.reduce((acc, current, idx) => {
+    acc += current.header.split(' ').length;
+
+    console.log(`header words ${idx}`, current.header.split(' '));
+    // console.log(`body words${idx}`, current.body.split(' '));
+
+    acc += current.body.reduce(
+      (accBody, currentBody) => accBody + currentBody.text.split(' ').length,
+      0
+    );
+
+    return acc;
+  }, 0);
+
+  const timeToRead = Math.floor(amountWords / 200);
+
+  console.log('amountWords', amountWords);
 
   return (
     <>
@@ -65,14 +89,14 @@ export default function Post({ post }: PostProps) {
             <div className={styles.headerInformations}>
               <span>{post.first_publication_date}</span>
               <span>{post.data.author}</span>
-              <span>Tempo de leitura</span>
+              <span>{timeToRead} min</span>
             </div>
           </header>
 
           <main className={styles.content}>
-            {post.data.content.map(item => (
+            {contentToHtml.map(item => (
               <div key={Math.random()}>
-                <h3 className={styles.blockTitle}>{item.heading}</h3>
+                <h3 className={styles.blockTitle}>{item.header}</h3>
                 <div
                   className={styles.blockContent}
                   dangerouslySetInnerHTML={{ __html: item.body }}
@@ -129,12 +153,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
           banner: {
             url: response.data.banner.url,
           },
-          content: response.data.content.map(item => {
-            return {
-              heading: item.header,
-              body: RichText.asHtml(item.body),
-            };
-          }),
+          content: response.data.content,
           title: response.data.title,
         },
       },
