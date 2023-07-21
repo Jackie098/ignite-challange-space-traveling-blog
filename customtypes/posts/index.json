@@ -37,8 +37,8 @@
               "config": {
                 "label": "body",
                 "placeholder": "",
-                "allowTargetBlank": true,
-                "single": "paragraph,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+                "allowTargetBlank": false,
+                "multi": "paragraph,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
               }
             }
           }

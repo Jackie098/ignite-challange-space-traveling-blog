@@ -47,7 +47,7 @@ export default function Home({ postsPagination }: HomeProps) {
 
   const [posts, setPosts] = useState(postsPagination);
 
-  console.log(posts);
+  // console.log(posts);
 
   if (posts === undefined || posts.results?.length === 0) {
     return 'Loading...';
@@ -85,7 +85,7 @@ export default function Home({ postsPagination }: HomeProps) {
   return (
     <div className={styles.container}>
       {posts.results.map(item => (
-        <Link href={`/post/${item.uid}`}>
+        <Link key={item.uid} href={`/post/${item.uid}`}>
           <button key={item.uid} className={styles.containerPost}>
             <h2>{item.data.title}</h2>
             <p>{item.data.subtitle}</p>
@@ -126,7 +126,7 @@ export const getStaticProps: GetStaticProps = async () => {
     pageSize: 2,
   });
 
-  console.log(postsResponse);
+  // console.log(postsResponse);
 
   const posts = postsResponse.results.map(post => {
     return {

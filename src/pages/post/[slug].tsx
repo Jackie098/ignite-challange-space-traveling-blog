@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import { GetStaticPaths, GetStaticProps } from 'next';
 
 import { RichText } from 'prismic-dom';
@@ -32,8 +33,9 @@ interface PostProps {
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/explicit-function-return-type
 export default function Post({ post }: PostProps) {
-  // console.log(post);
+  console.log('post', post);
   // console.log(post.data.content[0].body);
+  // const amountWords = post.data.content.reduce();
 
   return (
     <>
@@ -88,9 +90,17 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const prismic = getPrismicClient();
   const posts = await prismic.getByType('posts');
 
+  // return {
+  //   paths: [
+  //     { params: { slug: 'criando-um-app-cra-do-zero1' } },
+  //     { params: { slug: 'oi-oi-oi1' } },
+  //   ],
+  //   fallback: 'blocking',
+  // };
+
   return {
-    paths: [],
-    fallback: true,
+    paths: posts.results.map(post => ({ params: { slug: post.uid } })),
+    fallback: 'blocking',
   };
 };
 
@@ -100,6 +110,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const prismic = getPrismicClient();
 
   const response = await prismic.getByUID('posts', slug as string);
+
+  console.log(response.data.content[0].body);
 
   return {
     props: {
@@ -125,7 +137,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
           }),
           title: response.data.title,
         },
-      } as Post,
+      },
     },
   };
 };
