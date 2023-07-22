@@ -36,7 +36,11 @@ interface PostProps {
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/explicit-function-return-type
 export default function Post({ post }: PostProps) {
-  console.log('post', post);
+  // console.log('post', post);
+
+  if (!post || !post?.data) {
+    return 'Loading...';
+  }
 
   const contentToHtml = post.data.content.map(item => {
     return {
@@ -48,7 +52,7 @@ export default function Post({ post }: PostProps) {
   const amountWords = post.data.content.reduce((acc, current, idx) => {
     acc += current.header.split(' ').length;
 
-    console.log(`header words ${idx}`, current.header.split(' '));
+    // console.log(`header words ${idx}`, current.header.split(' '));
     // console.log(`body words${idx}`, current.body.split(' '));
 
     acc += current.body.reduce(
@@ -61,7 +65,7 @@ export default function Post({ post }: PostProps) {
 
   const timeToRead = Math.floor(amountWords / 200);
 
-  console.log('amountWords', amountWords);
+  // console.log('amountWords', amountWords);
 
   return (
     <>
@@ -137,7 +141,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   const response = await prismic.getByUID('posts', slug as string);
 
-  console.log(response.data.content[0].body);
+  // console.log(response.data.content[0].body);
 
   return {
     props: {
