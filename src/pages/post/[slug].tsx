@@ -90,7 +90,7 @@ export default function Post({ post }: PostProps) {
           alignItems: 'center',
         }}
       >
-        <div className={styles.contentContainer}>
+        <div className={commonStyles.container}>
           <header className={styles.header}>
             <h1>{post.data.title}</h1>
             <div className={styles.headerInformations}>
