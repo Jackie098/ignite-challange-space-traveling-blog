@@ -19,7 +19,7 @@ interface Post {
     };
     author: string;
     content: {
-      heading: string;
+      header: string;
       body: Record<string, unknown>[];
     }[];
   };
@@ -82,7 +82,7 @@ const mockedGetByUIDReturn = {
             spans: [],
           },
         ],
-        heading: 'Proin et varius',
+        header: 'Proin et varius',
       },
       {
         body: [
@@ -174,7 +174,7 @@ const mockedGetByUIDReturn = {
             ],
           },
         ],
-        heading: 'Cras laoreet mi',
+        header: 'Cras laoreet mi',
       },
     ],
   },

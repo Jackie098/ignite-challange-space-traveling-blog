@@ -30,7 +30,13 @@ interface GetStaticPropsResult {
 }
 
 const mockedGetByTypeReturn = {
+  page: 1,
+  results_per_page: 1,
+  results_size: 1,
+  total_results_size: 1,
+  total_pages: 1,
   next_page: 'link',
+  prev_page: 'string',
   results: [
     {
       uid: 'como-utilizar-hooks',
