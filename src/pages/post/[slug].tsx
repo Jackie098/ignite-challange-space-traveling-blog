@@ -32,6 +32,8 @@ interface PostProps {
   post: Post;
 }
 
+// CHECKPOINT: https://efficient-sloth-d85.notion.site/Desafio-01-Criando-um-projeto-do-zero-b1a3645d286b4eec93f5f1f5476d0ff7#7b3d1b08107d4b6faa40037715db1b15:~:text=Por%20fim%2C%20nos%20casos%20que%20cairem%20no%20fallback%2C%20%C3%A9%20obrigat%C3%B3rio%20que%20voc%C3%AA%20renderize%20pelo%20menos%20um%20texto%20na%20tela%20dizendo%20Carregando...%20para%20que%20o%20teste%20consiga%20verificar%20esses%20casos%20corretamente.
+
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/explicit-function-return-type
 export default function Post({ post }: PostProps) {
   console.log('post', post);
@@ -124,7 +126,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths: posts.results.map(post => ({ params: { slug: post.uid } })),
-    fallback: 'blocking',
+    fallback: true,
   };
 };
 

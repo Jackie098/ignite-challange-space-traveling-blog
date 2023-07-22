@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import styles from './header.module.scss';
 
-export default function Header() {
+export default function Header(): JSX.Element {
   const { asPath } = useRouter();
 
   // console.log(asPath);
