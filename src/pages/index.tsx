@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { FiCalendar, FiUser } from 'react-icons/fi';
 import { createClient } from '../prismicio';
 import { addMaskPtBr } from '../utils/date';
 import styles from './home.module.scss';
@@ -90,9 +91,14 @@ export default function Home({ postsPagination }: HomeProps) {
             <h2>{item.data.title}</h2>
             <p>{item.data.subtitle}</p>
             <div className={styles.containerInfo}>
-              <span>{item.first_publication_date}</span>
+              <span>
+                <FiCalendar style={{ marginRight: 8 }} />{' '}
+                {item.first_publication_date}
+              </span>
 
-              <span>{item.data.author}</span>
+              <span>
+                <FiUser style={{ marginRight: 8 }} /> {item.data.author}
+              </span>
             </div>
           </button>
         </Link>

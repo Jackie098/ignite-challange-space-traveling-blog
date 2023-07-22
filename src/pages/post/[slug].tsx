@@ -6,6 +6,7 @@ import { RichText } from 'prismic-dom';
 import Head from 'next/head';
 import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
+import { FiCalendar, FiClock, FiUser } from 'react-icons/fi';
 import { getPrismicClient } from '../../services/prismic';
 
 import commonStyles from '../../styles/common.module.scss';
@@ -93,9 +94,16 @@ export default function Post({ post }: PostProps) {
           <header className={styles.header}>
             <h1>{post.data.title}</h1>
             <div className={styles.headerInformations}>
-              <span>{post.first_publication_date}</span>
-              <span>{post.data.author}</span>
-              <span>{timeToRead} min</span>
+              <span>
+                <FiCalendar style={{ marginRight: 8 }} />{' '}
+                {post.first_publication_date}
+              </span>
+              <span>
+                <FiUser style={{ marginRight: 8 }} /> {post.data.author}
+              </span>
+              <span>
+                <FiClock style={{ marginRight: 8 }} /> {timeToRead} min
+              </span>
             </div>
           </header>
 
